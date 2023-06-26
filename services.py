@@ -80,9 +80,13 @@ class BaseModelService(
         instance = self.get_instance(detail_id)
         return self.get_detail_from_instance(instance)
 
+    def create_post_hook(self, instance: ModelT) -> ModelT:
+        return instance
+
     def create(self, payload: CreationPayloadT) -> ModelT:
         instance = self.model_class(**payload.dict())
         self.db.add(instance)
+        self.create_post_hook(instance)
 
         if self.autocommit:
             self.db.commit()
@@ -91,10 +95,15 @@ class BaseModelService(
         self.db.refresh(instance)
         return instance
 
+    def update_post_hook(self, instance: ModelT) -> ModelT:
+        return instance
+
     def update(self, detail_id: int, payload: UpdatePayloadT) -> ModelT:
         instance = self.get_instance(detail_id)
-        for field, value in payload:
+        for field, value in payload.dict().items():
             setattr(instance, field, value)
+
+        self.update_post_hook(instance)
 
         if self.autocommit:
             self.db.commit()
