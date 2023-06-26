@@ -1,0 +1,19 @@
+{
+    "editor.rulers": [
+        89
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+    },
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportUnknownArgumentType": "none",
+        "reportUnknownFunctionReturnType": "none",
+        "reportUnknownMethodReturnType": "none",
+        "reportUnknownVariableType": "none"
+    }
+}
