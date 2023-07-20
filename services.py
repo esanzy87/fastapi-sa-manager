@@ -59,12 +59,16 @@ class BaseModelService(
             select(count()).select_from(stmt.subquery())
         ).scalar_one()
 
-        if per_page > -1:
+        if per_page == -1:
+            results = self.db.scalars(stmt).all()
+        elif per_page == 0:
+            results = []
+        elif per_page > 0:
             results = self.db.scalars(
                 stmt.offset(page * per_page).limit(per_page)
             ).all()
         else:
-            results = self.db.scalars(stmt).all()
+            raise ValueError("per_page should be -1, 0, or positive integer")
 
         return PaginatedList(
             total_count=total_count,
