@@ -81,7 +81,20 @@ class BaseModelService(
         return self._detail_schema.from_orm(instance)
 
     def get_detail(self, detail_id: int) -> DetailSchemaT:
-        instance = self.get_instance(detail_id)
+        from fastapi import status
+        from fastapi.exceptions import HTTPException
+        from sqlalchemy.exc import NoResultFound, MultipleResultsFound
+
+        try:
+            instance = self.get_instance(detail_id)
+        except NoResultFound:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
+        except MultipleResultsFound:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+            )
         return self.get_detail_from_instance(instance)
 
     def create_post_hook(self, instance: ModelT) -> ModelT:
