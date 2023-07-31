@@ -1,1 +1,9 @@
-# FastAPI + SQLAlchemy 풀스택 스켈레톤
+# FastAPI-sa-manager
+
+FastAPI-sa-manager is an SQLAlchemy ORM extension for FastAPI helping you to build CRUD APIs fast and easy.
+
+## Installation
+
+```bash
+pip install fastapi-sa-manager
+```
